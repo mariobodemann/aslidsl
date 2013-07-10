@@ -1,5 +1,3 @@
 #!/bin/bash
 
-for f in $(find images -type f | xargs ); do 
-	echo "$f" >> image-list.txt; 
-done;
+find images -type f >> image-list.txt;

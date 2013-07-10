@@ -74,23 +74,23 @@ function loadNextImage() {
     description.text = imagePath;
 
     var image = new createjs.Bitmap(imagePath);
-    
-    current = new createjs.Container();
-    current.addChild( image ); 
-    stage.addChildAt(current,0);    
+    image.image.onload = function() {
+        current = new createjs.Container();
+        current.addChild( image ); 
+        stage.addChildAt(current,0);    
 
-    current.alpha=0;
-    current.x = 0;
-    current.y = 0;
-    createjs.Tween.get(current).to({alpha:1}, 1000);
+        current.alpha=0;
+        current.x = stage.canvas.width / 2 - image.image.width / 2;
+        current.y = stage.canvas.height/ 2 - image.image.height / 2;
+        createjs.Tween.get(current).to({alpha:1}, 1000);
 
-    var effectId = Math.floor( Math.random() * (effects.length +1));
-    console.log("loading image " + imagePath + " with effect " + effectId, imagePath);
-    
-    if( effectId > 0 ) {
-       createjs.Tween.get(current).to(effects[effectId-1], 10000).call(loadNextImage);
-    } else {
-       createjs.Tween.get(current).wait(4000).call(loadNextImage);
+        var effectId = Math.floor( Math.random() * (effects.length +1));
+
+        if( effectId > 0 ) {
+           createjs.Tween.get(current).to(effects[effectId-1], 10000).call(loadNextImage);
+        } else {
+           createjs.Tween.get(current).wait(4000).call(loadNextImage);
+        }
     }    
 }
 
@@ -107,11 +107,5 @@ function update() {
 function resize() { 
     stage.canvas.width = window.innerWidth;
     stage.canvas.height = window.innerHeight;      
-  
-    if(current.numChildren > 0) {
-        var image = current.getChildAt(0);
-        image.scaleX = window.innerWidth / image.width;
-        image.scaleY = window.innerHeight / image.height;
-    }
 }
 

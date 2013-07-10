@@ -22,24 +22,3 @@ function update() {
 
     //LevelManager.update();
 }
-
-
-
-//LevelManager.loadLevel( "myLevel.json" );
-
-
-//var player = new Player();
-
-//var entityLink = LevelManager.addEntity( player.displayObject, x, y, l ); // player = { id : "object_1", layer : null, data : { displayObject: blah } };
-
-//LevelManager.moveEntity( entityLink, offset, ignorePhysics );
-
-
-
-
-//var displayObject = entityDict[entityLink.id];
-//var layer = layerDict[entityLink.layerId];
-
-
-//delete dict[key];
-

@@ -87,11 +87,26 @@ function loadNextImage() {
         var effectId = Math.floor( Math.random() * (effects.length +1));
 
         if( effectId > 0 ) {
-           createjs.Tween.get(current).to(effects[effectId-1], 10000).call(loadNextImage);
+           createjs.Tween.get(current).to(transformEffect(effects[effectId-1]), 10000).call(loadNextImage);
         } else {
            createjs.Tween.get(current).wait(4000).call(loadNextImage);
         }
     }    
+}
+
+function transformEffect( effect ) {
+    var newEffect = {};
+    newEffect.x = effect.x;
+    newEffect.y = effect.y;
+    newEffect.scaleX = effect.scaleX;
+    newEffect.scaleY = effect.scaleY;
+
+    if( effect.x ) newEffect.x += current.x;
+    if( effect.y ) newEffect.y += current.y;
+
+    return newEffect
+
+    return newEffect;;
 }
 
 function remove(deleteMe) {

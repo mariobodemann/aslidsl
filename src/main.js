@@ -1,8 +1,7 @@
 var stage = null;
 var images = null;
-
-var description = null;
 var current = null;
+
 var effects = [
     {x: 10},
     {x:-10},
@@ -47,16 +46,6 @@ function handleComplete(event) {
 
 function setupStage() {
     stage = new createjs.Stage( "canvas" );
-
-    var shape = new createjs.Shape();
-    shape.graphics.beginFill("#fff").drawRect(0, 0, 2000, 30);
-    shape.alpha=0.8;
-    stage.addChild(shape);
-
-    description = new createjs.Text( "", "20px Arial", "#000" );
-    stage.addChild(description);
-    loadNextImage();
-    
     resize();
 
     createjs.Ticker.addEventListener( "tick", update );     
@@ -71,7 +60,6 @@ function loadNextImage() {
 
     var imageId = Math.floor(Math.random() * images.length);
     var imagePath = encodeURI(images[imageId]);
-    description.text = imagePath;
 
     var image = new createjs.Bitmap(imagePath);
     image.image.onload = function() {

@@ -63,6 +63,8 @@ function loadNextImage() {
     var imageId = Math.floor(Math.random() * images.length);
     var imagePath = encodeURI(images[imageId]);
     var image = new createjs.Bitmap(imagePath);
+
+    image.image.onerror
     
     image.image.onload = function() {
         current = new createjs.Container();
@@ -71,14 +73,15 @@ function loadNextImage() {
 
         current.alpha=0;
         
-        var scale = image.image.width < image.image.height ? 
+        var scale = image.image.width > image.image.height ? 
 		stage.canvas.width / image.image.width : 
 		stage.canvas.height / image.image.height;
+		 
 	current.scaleX = scale;
 	current.scaleY = scale;
 
-        current.x = stage.canvas.width / 2 - image.image.width / 2;
-        current.y = stage.canvas.height/ 2 - image.image.height / 2;
+        current.x = stage.canvas.width / 2 - (image.image.width*scale) / 2;
+        current.y = 0;//stage.canvas.height/ 2 - image.image.height / 2;
         
         createjs.Tween.get(current).to({alpha:1}, 1000);
 

@@ -51,6 +51,8 @@ function setupStage() {
     createjs.Ticker.addEventListener( "tick", update );     
     createjs.Ticker.useRAF = true;      
     createjs.Ticker.setFPS( 30 );
+
+    loadNextImage();
 }
 
 function loadNextImage() { 
@@ -60,24 +62,32 @@ function loadNextImage() {
 
     var imageId = Math.floor(Math.random() * images.length);
     var imagePath = encodeURI(images[imageId]);
-
     var image = new createjs.Bitmap(imagePath);
+    
     image.image.onload = function() {
         current = new createjs.Container();
         current.addChild( image ); 
         stage.addChildAt(current,0);    
 
         current.alpha=0;
+        
+        var scale = image.image.width < image.image.height ? 
+		stage.canvas.width / image.image.width : 
+		stage.canvas.height / image.image.height;
+	current.scaleX = scale;
+	current.scaleY = scale;
+
         current.x = stage.canvas.width / 2 - image.image.width / 2;
         current.y = stage.canvas.height/ 2 - image.image.height / 2;
+        
         createjs.Tween.get(current).to({alpha:1}, 1000);
 
         var effectId = Math.floor( Math.random() * (effects.length +1));
 
         if( effectId > 0 ) {
-           createjs.Tween.get(current).to(transformEffect(effects[effectId-1]), 10000).call(loadNextImage);
+           createjs.Tween.get(current).to(transformEffect(effects[effectId-1]), 15000).call(loadNextImage);
         } else {
-           createjs.Tween.get(current).wait(4000).call(loadNextImage);
+           createjs.Tween.get(current).wait(15000).call(loadNextImage);
         }
     }    
 }
@@ -92,9 +102,7 @@ function transformEffect( effect ) {
     if( effect.x ) newEffect.x += current.x;
     if( effect.y ) newEffect.y += current.y;
 
-    return newEffect
-
-    return newEffect;;
+    return newEffect;
 }
 
 function remove(deleteMe) {
